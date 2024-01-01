@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Fabulous" Version="2.5.0-pre2" />
+    <PackageVersion Include="Fabulous" Version="2.4.0" />
     <PackageVersion Include="Fabulous.Avalonia" Version="2.0.0" />
     <PackageVersion Include="FsCheck.NUnit" Version="2.16.4" />
     <PackageVersion Include="FSharp.Core" Version="8.0.100" />
