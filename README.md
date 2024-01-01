@@ -6,32 +6,20 @@ Fabulous.Avalonia brings the great development experience of Fabulous to [Avalon
 
 Deploy to any platform supported by Avalonia, such as Android, iOS, macOS, Windows, Linux and more!
 
-
 ## Getting Started
 
 You can start your new Fabulous app in a matter of seconds using the dotnet CLI templates.  
 For a starter guide see our 
     - [Fabulous.Avalonia](https://docs.fabulous.dev/avalonia/get-started).
     - [Fabulous.MauiControls](https://docs.fabulous.dev/maui/get-started).
-    
 
-## Samples
-We have a range of samples to help you get started.
+## AvaloniaUI Samples
 
-You can find them in the [samples folder](https://github.com/fabulous-dev/Fabulous.Avalonia/tree/main/samples).
+### CounterApp
 
-To run the `Gallery` sample app from the command line, navigate to the sample folder and run `dotnet run -f net8.0`.
+The Counter App is a sample application that demonstrates the basic concepts of Fabulous.
 
-```sh
-cd samples/Gallery
-dotnet run -f net8.0
-```
-
-You can also open the solution with your favorite IDE(We recommend [Rider](https://www.jetbrains.com/rider/)) and select the platform you want, then press debug to deploy and run the app.
-
-## Documentation
-
-The full documentation for Fabulous.Avalonia can be found at [docs.fabulous.dev/avalonia](https://docs.fabulous.dev/avalonia).
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/AvaloniaUI/CounterApp)
 
 Other useful links:
 - [The official Fabulous website](https://fabulous.dev)
@@ -65,4 +53,3 @@ If you would like us to provide you with:
 - and consulting services.
 
 Feel free to contact us: [support@fabulous.dev](mailto:support@fabulous.dev)
-# Fabulous.Samples
