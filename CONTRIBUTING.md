@@ -126,13 +126,11 @@ There are a few things to think about when doing a release:
 - The release pipeline will need to be approved by one of the maintainers with release rights.
 
 
-[GitHub issue]: https://github.com/fabulous-dev/Fabulous.Avalonia/issues
-[GitHub issues]: https://github.com/fabulous-dev/Fabulous.Avalonia/issues
-[GitHub releases page]: https://github.com/fabulous-dev/Fabulous.Avalonia/releases/new
-[PRs]: https://github.com/fabulous-dev/Fabulous.Avalonia/pulls
+[GitHub issues]: https://github.com/fabulous-dev/Fabulous.Samples/issues
+[PRs]: https://github.com/fabulous-dev/Fabulous.Samples/pulls
 [fork guide]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects
 [Discord]: https://discord.gg/bpTJMbSSYK
-[.NET 7.0 SDK]: https://dotnet.microsoft.com/en-us/download
+[.NET 8.0 SDK]: https://dotnet.microsoft.com/en-us/download
 [build workflow]: .github/workflows/build.yml
 [CHANGELOG.md]: CHANGELOG.md
 [JetBrains Rider]: https://www.jetbrains.com/rider/

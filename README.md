@@ -1,28 +1,26 @@
 # Fabulous Samples
 
-[![build](https://img.shields.io/github/actions/workflow/status/fabulous-dev/Fabulous.Avalonia/build.yml?branch=main)](https://github.com/fabulous-dev/Fabulous.Avalonia/actions/workflows/build.yml) [![Discord](https://img.shields.io/discord/716980335593914419?label=discord&logo=discord)](https://discord.gg/bpTJMbSSYK) [![Twitter Follow](https://img.shields.io/twitter/follow/FabulousAppDev?style=social)](https://twitter.com/FabulousAppDev)
+[![Discord](https://img.shields.io/discord/716980335593914419?label=discord&logo=discord)](https://discord.gg/bpTJMbSSYK) [![Twitter Follow](https://img.shields.io/twitter/follow/FabulousAppDev?style=social)](https://twitter.com/FabulousAppDev)
 
-Fabulous.Avalonia brings the great development experience of Fabulous to [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia), allowing you to take advantage of this UI framework with a tailored declarative UI DSL and clean architecture.
+Fabulous is a modern declarative UI framework for crafting cross-platform mobile and desktop apps in .NET.  
+It aims to bring you a great development experience and confidence in your code by combining an expressive UI syntax, the simple & robust Model-View-Update (MVU) architecture, and functional programming.
 
-Deploy to any platform supported by Avalonia, such as Android, iOS, macOS, Windows, Linux and more!
+## Documentation
 
-## Getting Started
-
-You can start your new Fabulous app in a matter of seconds using the dotnet CLI templates.  
-For a starter guide see our 
-    - [Fabulous.Avalonia](https://docs.fabulous.dev/avalonia/get-started).
-    - [Fabulous.MauiControls](https://docs.fabulous.dev/maui/get-started).
-
-## AvaloniaUI Samples
-
-### CounterApp
-
-The Counter App is a sample application that demonstrates the basic concepts of Fabulous.
-
-[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/AvaloniaUI/CounterApp)
+The full documentation for Fabulous can be found at [docs.fabulous.dev](https://docs.fabulous.dev).
 
 Other useful links:
 - [The official Fabulous website](https://fabulous.dev)
+- [Get started](https://docs.fabulous.dev/get-started)
+- [API Reference](https://api.fabulous.dev)
+- [Contributor Guide](CONTRIBUTING.md)
+
+## Samples
+
+- [AvaloniaUI](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/AvaloniaUI/)
+- [Maui](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/Maui/)
+
+Other useful links:
 - [Contributor Guide](CONTRIBUTING.md)
 
 Additionally, we have the [Fabulous Discord server](https://discord.gg/bpTJMbSSYK) where you can ask any of your Fabulous related questions.
