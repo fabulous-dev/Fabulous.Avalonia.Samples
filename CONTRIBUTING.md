@@ -125,12 +125,9 @@ There are a few things to think about when doing a release:
 - Once you are satisfied, create a new release via the [Github releases page], create a new tag with the version you want (eg. `2.2.0`), use the version number as the release name, paste the [CHANGELOG.md] section about this release into the description, and hit Submit.
 - The release pipeline will need to be approved by one of the maintainers with release rights.
 
-
-[GitHub issues]: https://github.com/fabulous-dev/Fabulous.Samples/issues
-[PRs]: https://github.com/fabulous-dev/Fabulous.Samples/pulls
+[GitHub issues]: https://github.com/fabulous-dev/Fabulous.Avalonia.Samples/issues
+[PRs]: https://github.com/fabulous-dev/Fabulous.Avalonia.Samples/pulls
 [fork guide]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects
 [Discord]: https://discord.gg/bpTJMbSSYK
 [.NET 8.0 SDK]: https://dotnet.microsoft.com/en-us/download
-[build workflow]: .github/workflows/build.yml
-[CHANGELOG.md]: CHANGELOG.md
 [JetBrains Rider]: https://www.jetbrains.com/rider/

@@ -1,24 +1,47 @@
-# Fabulous Samples
+# Fabulous.Avalonia Samples
 
 [![Discord](https://img.shields.io/discord/716980335593914419?label=discord&logo=discord)](https://discord.gg/bpTJMbSSYK) [![Twitter Follow](https://img.shields.io/twitter/follow/FabulousAppDev?style=social)](https://twitter.com/FabulousAppDev)
 
-Fabulous is a modern declarative UI framework for crafting cross-platform mobile and desktop apps in .NET.  
-It aims to bring you a great development experience and confidence in your code by combining an expressive UI syntax, the simple & robust Model-View-Update (MVU) architecture, and functional programming.
+Fabulous.Avalonia brings the great development experience of Fabulous to [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia), allowing you to take advantage of this UI framework with a tailored declarative UI DSL and clean architecture.
 
-## Documentation
+Deploy to any platform supported by Avalonia, such as Android, iOS, macOS, Windows, Linux and more!
 
-The full documentation for Fabulous can be found at [docs.fabulous.dev](https://docs.fabulous.dev).
+## Getting Started
 
-Other useful links:
-- [The official Fabulous website](https://fabulous.dev)
-- [Get started](https://docs.fabulous.dev/get-started)
-- [API Reference](https://api.fabulous.dev)
-- [Contributor Guide](CONTRIBUTING.md)
+You can start your new Fabulous.Avalonia app in a matter of seconds using the dotnet CLI templates.  
+For a starter guide see our [Get Started with Fabulous.Avalonia](https://docs.fabulous.dev/avalonia/get-started).
 
 ## Samples
 
-- [AvaloniaUI](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/AvaloniaUI/)
-- [Maui](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/Maui/)
+### MVU CounterApp
+
+The Counter App is a sample application that demonstrates the basic concepts of Fabulous.
+
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/CounterApp)
+
+### MVU DrawingApp
+
+The Drawing App is a sample application that demonstrates how to use drawing primitives in Fabulous.
+
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/DrawingApp)
+
+### MVU GameOfLife
+
+The Game of Life is a sample application that demonstrates how to use Fabulous to create the [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/GameOfLife)
+
+### MVU Tetris
+
+The Tetris App is a sample application that demonstrates how to use Fabulous to create the [Tetris](https://en.wikipedia.org/wiki/Tetris) game.
+
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/Tetris)
+
+### MVU TicTacToe
+
+The TicTacToe App is a sample application that demonstrates how to use Fabulous to create the [Tic Tac Toe](https://en.wikipedia.org/wiki/Tic-tac-toe) game.
+
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/TicTacToe)
 
 Other useful links:
 - [Contributor Guide](CONTRIBUTING.md)
