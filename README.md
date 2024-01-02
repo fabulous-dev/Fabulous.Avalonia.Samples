@@ -1,4 +1,4 @@
-# Fabulous.Avalonia Samples
+# Fabulous.Avalonia.Samples
 
 [![Discord](https://img.shields.io/discord/716980335593914419?label=discord&logo=discord)](https://discord.gg/bpTJMbSSYK) [![Twitter Follow](https://img.shields.io/twitter/follow/FabulousAppDev?style=social)](https://twitter.com/FabulousAppDev)
 
