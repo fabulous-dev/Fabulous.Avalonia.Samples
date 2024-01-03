@@ -47,7 +47,7 @@ module App =
     let view model =
         Grid() {
             VStack() {
-                Image(ImageSource.fromString("avares://GitHubClient/Assets/github-icon.png"))
+                //Image(ImageSource.fromString("avares://GitHubClient/Assets/github-icon.png"))
                 TextBox(model.UserName, UserNameChanged)
                 Button("Search", SearchClicked)
             }

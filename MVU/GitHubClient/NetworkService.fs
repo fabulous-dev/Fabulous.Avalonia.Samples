@@ -11,12 +11,6 @@ module URlConstants =
     [<Literal>]
     let githubBaseUrl = "https://api.github.com/users/"
 
-    [<Literal>]
-    let exchangesBaseUrl = "<Enter the URL here>"
-
-    [<Literal>]
-    let countriesBaseUrl = "https://restcountries.eu/rest/v2/currency/"
-
 type GitHubError =
     | Non200Response
 
