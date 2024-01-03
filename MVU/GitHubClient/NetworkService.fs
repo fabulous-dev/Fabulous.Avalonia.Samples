@@ -11,8 +11,7 @@ module URlConstants =
     [<Literal>]
     let githubBaseUrl = "https://api.github.com/users/"
 
-type GitHubError =
-    | Non200Response
+type GitHubError = | Non200Response
 
 module GitHubService =
 

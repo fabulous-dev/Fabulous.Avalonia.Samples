@@ -5,6 +5,9 @@
     <!-- net8.0-ios is not supported on Linux, so we do not add it there. -->
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('linux')) == false">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <WarningsAsErrors>FS0025</WarningsAsErrors>
+    <NoWarn>MT7091;NETSDK1206</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <AvaloniaPlatform>$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))</AvaloniaPlatform>
@@ -23,9 +26,7 @@
     <CodesignKey>Apple Development: Timothé Larivière (X6N2KN9WK3)</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Styles\*.xaml" />
-    <AvaloniaResource Include="*.xaml" />
-    <AvaloniaResource Include="Assets\**\*" />
+    <AvaloniaResource Include="**\*.xaml" />
     <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
