@@ -4,7 +4,7 @@ open System.Diagnostics
 open Avalonia.Themes.Fluent
 open Fabulous
 open Fabulous.Avalonia
-open Models
+open GitHubClient.Models
 
 open type Fabulous.Avalonia.View
 
@@ -13,47 +13,71 @@ module App =
     type Msg =
         | UserNameChanged of string
         | SearchClicked
-        | UserLoaded of User
-        | UserNotFound of GitHubError
+        | UserInfoLoaded of User
+        | UserInfoNotFound of GitHubError
+        | FollowersLoaded of Follower array
+        | FollowersNotFound of GitHubError
 
-    type CmdMsg = FetchUser of string
+    type CmdMsg =
+        | GetUserInfo of name: string
+        | GetFollowers of name: string
 
-    type Model = { UserName: string }
+    type Model = { UserName: string; Followers: Follower  array }
 
-    let init () = { UserName = "" }, []
+    let init () = { UserName = ""; Followers = [||] }, []
 
-    let getFollowers userName =
+    let getUserInfo userName =
         task {
             let! response = GitHubService.getUserInfo userName
 
             match response with
-            | Ok user -> return UserLoaded user
-            | Error error -> return UserNotFound error
+            | Ok user -> return UserInfoLoaded user
+            | Error error -> return UserInfoNotFound error
+        }
+        
+    let getFollowers userName =
+        task {
+            let! response = GitHubService.getFollowers userName 1
+
+            match response with
+            | Ok followers -> return FollowersLoaded followers
+            | Error error -> return FollowersNotFound error
         }
 
     let mapCmdMsgToCmd cmdMsg =
         match cmdMsg with
-        | FetchUser userName -> Cmd.ofTaskMsg(getFollowers userName)
+        | GetUserInfo userName -> Cmd.ofTaskMsg(getUserInfo userName)
+        | GetFollowers userName -> Cmd.ofTaskMsg(getFollowers userName)
 
     let update msg model =
         match msg with
-        | UserNameChanged userName -> { UserName = userName }, []
+        | UserNameChanged userName -> { model with UserName = userName }, []
 
-        | SearchClicked -> model, [ FetchUser model.UserName ]
+        | SearchClicked -> model, [ GetUserInfo model.UserName ]
 
-        | UserLoaded user -> model, []
+        | UserInfoLoaded user -> model, [ GetFollowers user.login ]
 
-        | UserNotFound error -> model, []
+        | UserInfoNotFound _ -> model, []
+        
+        | FollowersLoaded followers -> { model with Followers = followers }, []
+        
+        | FollowersNotFound _ -> model, []
 
     let view model =
         Grid() {
-            VStack() {
+            (VStack() {
                 Image(ImageSource.fromString("avares://GitHubClient/Assets/github-icon.png"))
                     .size(100., 100.)
 
                 TextBox(model.UserName, UserNameChanged)
                 Button("Search", SearchClicked)
-            }
+                
+                UniformGrid(cols = 2, rows = 37) {
+                    for i in 0 .. model.Followers.Length - 1 do
+                        TextBlock(model.Followers[i].login)
+                            .gridRow(i / 2)
+                    }
+            }).centerHorizontal()
         }
 
 #if MOBILE

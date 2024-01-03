@@ -4,7 +4,6 @@
     <TargetFrameworks>net8.0;net8.0-android</TargetFrameworks>
     <!-- net8.0-ios is not supported on Linux, so we do not add it there. -->
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('linux')) == false">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
-    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
     <WarningsAsErrors>FS0025</WarningsAsErrors>
     <NoWarn>MT7091;NETSDK1206</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -42,7 +41,7 @@
     <None Include="$(AndroidPlatformFolder)AndroidManifest.xml" />
     <Compile Include="$(AndroidPlatformFolder)MainActivity.fs" />
     <Compile Include="$(AndroidPlatformFolder)SplashActivity.fs" />
-    <PackageReference Include="Avalonia.Android" Version="11.0.6" />
+    <PackageReference Include="Avalonia.Android" />
   </ItemGroup>
   <ItemGroup Condition="$(AvaloniaPlatform) == 'iOS'">
     <None Include="$(iOSPlatformFolder)Entitlements.plist" />
@@ -50,11 +49,11 @@
     <InterfaceDefinition Include="$(iOSPlatformFolder)*.storyboard;$(iOSPlatformFolder)*.xib" />
     <Compile Include="$(iOSPlatformFolder)SceneDelegate.fs" />
     <Compile Include="$(iOSPlatformFolder)AppDelegate.fs" />
-    <PackageReference Include="Avalonia.iOS" Version="11.0.6" />
+    <PackageReference Include="Avalonia.iOS" />
   </ItemGroup>
   <ItemGroup Condition="$(AvaloniaPlatform) == 'Desktop'">
     <Compile Include="$(DesktopPlatformFolder)Program.fs" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+    <PackageReference Include="Avalonia.Desktop" />
   </ItemGroup>
 
   <ItemGroup>

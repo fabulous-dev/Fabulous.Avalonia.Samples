@@ -21,15 +21,15 @@ module GitHubService =
         client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json")
         client.GetAsync(urlString)
 
-    let getFollowers (searchTerm: string, page: int) =
+    let getFollowers (searchTerm: string) (page: int) =
         let urlString =
-            $"{URlConstants.githubBaseUrl}{searchTerm}/followers?per_page=100&page={page}"
+            $"{URlConstants.githubBaseUrl}%s{searchTerm}/followers?per_page=100&page=%d{page}"
 
         task {
             use! response = fetchWitHeader urlString
             response.EnsureSuccessStatusCode |> ignore
 
-            let! followers = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            let! followers = response.Content.ReadAsStringAsync()
             let deserialized = JsonSerializer.Deserialize<Follower array>(followers)
 
             return
@@ -39,12 +39,13 @@ module GitHubService =
         }
 
     let getUserInfo (userName: string) =
-        let urlString = $"{URlConstants.githubBaseUrl}/{userName}"
+        let urlString = $"{URlConstants.githubBaseUrl}%s{userName}"
 
         task {
             use! response = fetchWitHeader urlString
             response.EnsureSuccessStatusCode |> ignore
-            let! followers = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            
+            let! followers = response.Content.ReadAsStringAsync()
             let deserialized = JsonSerializer.Deserialize<User>(followers)
 
             return
