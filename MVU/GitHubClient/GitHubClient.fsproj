@@ -31,6 +31,8 @@
   <ItemGroup>
     <Compile Include="Models.fs" />
     <Compile Include="NetworkService.fs" />
+    <Compile Include="Views\Followers.fs" />
+    <Compile Include="Views\Search.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>

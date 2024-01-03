@@ -4,81 +4,67 @@ open System.Diagnostics
 open Avalonia.Themes.Fluent
 open Fabulous
 open Fabulous.Avalonia
-open GitHubClient.Models
+open GitHubClient
 
 open type Fabulous.Avalonia.View
 
 
 module App =
     type Msg =
-        | UserNameChanged of string
-        | SearchClicked
-        | UserInfoLoaded of User
-        | UserInfoNotFound of GitHubError
-        | FollowersLoaded of Follower array
-        | FollowersNotFound of GitHubError
+        | SearchPageMsg of SearchPage.Msg
+        | FollowersPageMsg of FollowersPage.Msg
+
+    type SubpageCmdMsg =
+        | SearchCmdMsgs of SearchPage.CmdMsg list
+        | FollowersCmdMsgs of FollowersPage.CmdMsg list
+
+    type Model =
+        { SearchModel: SearchPage.Model
+          FollowersModel: FollowersPage.Model }
 
     type CmdMsg =
-        | GetUserInfo of name: string
-        | GetFollowers of name: string
+        | NewMsg of Msg
+        | SubpageCmdMsgs of SubpageCmdMsg list
 
-    type Model = { UserName: string; Followers: Follower  array }
+    let init () =
+        let search, searchCmdMsgs = SearchPage.init()
+        let followers, followersCmdMsgs = FollowersPage.init()
 
-    let init () = { UserName = ""; Followers = [||] }, []
-
-    let getUserInfo userName =
-        task {
-            let! response = GitHubService.getUserInfo userName
-
-            match response with
-            | Ok user -> return UserInfoLoaded user
-            | Error error -> return UserInfoNotFound error
-        }
-        
-    let getFollowers userName =
-        task {
-            let! response = GitHubService.getFollowers userName 1
-
-            match response with
-            | Ok followers -> return FollowersLoaded followers
-            | Error error -> return FollowersNotFound error
-        }
+        { SearchModel = search
+          FollowersModel = followers },
+        [ SubpageCmdMsgs searchCmdMsgs; SubpageCmdMsgs followersCmdMsgs ]
 
     let mapCmdMsgToCmd cmdMsg =
         match cmdMsg with
-        | GetUserInfo userName -> Cmd.ofTaskMsg(getUserInfo userName)
-        | GetFollowers userName -> Cmd.ofTaskMsg(getFollowers userName)
+        | NewMsg msg -> Cmd.ofMsg msg
+        | SubpageCmdMsgs cmdMsgs ->
+            let mapSubpageCmdMsg (cmdMsg: SubpageCmdMsg) =
+                let map (mapCmdMsgFn: 'subCmdMsg -> Cmd<'subMsg>) (mapFn: 'subMsg -> 'msg) (subCmdMsgs: 'subCmdMsg list) =
+                    subCmdMsgs
+                    |> List.map(fun c ->
+                        let cmd = mapCmdMsgFn c
+                        Cmd.map mapFn cmd)
+
+                match cmdMsg with
+                | SearchCmdMsgs subCmdMsgs -> map SearchPage.mapCmdMsgToCmd SearchPageMsg subCmdMsgs
+                | FollowersCmdMsgs subCmdMsgs -> map FollowersPage.mapCmdMsgToCmd FollowersPageMsg subCmdMsgs
+
+            cmdMsgs |> List.map mapSubpageCmdMsg |> List.collect id |> Cmd.batch
 
     let update msg model =
         match msg with
-        | UserNameChanged userName -> { model with UserName = userName }, []
+        | SearchPageMsg msg ->
+            let searchModel, cmdMsgs = SearchPage.update msg model.SearchModel
+            { model with SearchModel = searchModel }, [ SubpageCmdMsgs [ SearchCmdMsgs cmdMsgs ] ]
+        | FollowersPageMsg msg ->
+            let followersModel, cmdMsgs = FollowersPage.update msg model.FollowersModel
 
-        | SearchClicked -> model, [ GetUserInfo model.UserName ]
-
-        | UserInfoLoaded user -> model, [ GetFollowers user.login ]
-
-        | UserInfoNotFound _ -> model, []
-        
-        | FollowersLoaded followers -> { model with Followers = followers }, []
-        
-        | FollowersNotFound _ -> model, []
+            { model with
+                FollowersModel = followersModel },
+            [ SubpageCmdMsgs cmdMsgs ]
 
     let view model =
-        Grid() {
-            (VStack() {
-                Image(ImageSource.fromString("avares://GitHubClient/Assets/github-icon.png"))
-                    .size(100., 100.)
-
-                TextBox(model.UserName, UserNameChanged)
-                Button("Search", SearchClicked)
-                
-                UniformGrid(cols = 2, rows = 37) {
-                    for i in 0 .. model.Followers.Length - 1 do
-                        TextBlock(model.Followers[i].login)
-                            .gridRow(i / 2)
-                    }
-            }).centerHorizontal()
-        }
+        View.map SearchPageMsg (SearchPage.view model.SearchModel)
 
 #if MOBILE
     let app model = SingleViewApplication(view model)

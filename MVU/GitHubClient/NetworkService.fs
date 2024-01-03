@@ -44,7 +44,7 @@ module GitHubService =
         task {
             use! response = fetchWitHeader urlString
             response.EnsureSuccessStatusCode |> ignore
-            
+
             let! followers = response.Content.ReadAsStringAsync()
             let deserialized = JsonSerializer.Deserialize<User>(followers)
 
