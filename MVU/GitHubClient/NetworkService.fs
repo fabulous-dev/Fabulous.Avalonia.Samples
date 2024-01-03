@@ -23,7 +23,7 @@ module GitHubService =
 
     let getFollowers (searchTerm: string, page: int) =
         let urlString =
-            $"{URlConstants.githubBaseUrl}%s{searchTerm}/followers?per_page=100&page=%d{page}"
+            $"{URlConstants.githubBaseUrl}{searchTerm}/followers?per_page=100&page={page}"
 
         task {
             use! response = fetchWitHeader urlString
@@ -39,7 +39,7 @@ module GitHubService =
         }
 
     let getUserInfo (userName: string) =
-        let urlString = $"https://api.github.com/users/%s{userName}"
+        let urlString = $"{URlConstants.githubBaseUrl}/{userName}"
 
         task {
             use! response = fetchWitHeader urlString
