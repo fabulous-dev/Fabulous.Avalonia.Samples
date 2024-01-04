@@ -1,6 +1,7 @@
 namespace GitHubClient
 
 open System.Diagnostics
+open Avalonia.Controls
 open Avalonia.Themes.Fluent
 open Fabulous
 open Fabulous.Avalonia
@@ -8,19 +9,18 @@ open GitHubClient
 
 open type Fabulous.Avalonia.View
 
-
 module App =
     type Msg =
         | SearchPageMsg of SearchPage.Msg
-        | FollowersPageMsg of FollowersPage.Msg
+        | FavoritesPageMsg of FavoritesPage.Msg
 
     type SubpageCmdMsg =
         | SearchCmdMsgs of SearchPage.CmdMsg list
-        | FollowersCmdMsgs of FollowersPage.CmdMsg list
+        | FavoritesCmdMsgs of FavoritesPage.CmdMsg list
 
     type Model =
         { SearchModel: SearchPage.Model
-          FollowersModel: FollowersPage.Model }
+          FavoritesModel: FavoritesPage.Model }
 
     type CmdMsg =
         | NewMsg of Msg
@@ -28,11 +28,11 @@ module App =
 
     let init () =
         let search, searchCmdMsgs = SearchPage.init()
-        let followers, followersCmdMsgs = FollowersPage.init()
+        let favorites, favoritesCmdMsgs = FavoritesPage.init()
 
         { SearchModel = search
-          FollowersModel = followers },
-        [ SubpageCmdMsgs searchCmdMsgs; SubpageCmdMsgs followersCmdMsgs ]
+          FavoritesModel = favorites },
+        [ SubpageCmdMsgs searchCmdMsgs; SubpageCmdMsgs favoritesCmdMsgs ]
 
     let mapCmdMsgToCmd cmdMsg =
         match cmdMsg with
@@ -47,7 +47,7 @@ module App =
 
                 match cmdMsg with
                 | SearchCmdMsgs subCmdMsgs -> map SearchPage.mapCmdMsgToCmd SearchPageMsg subCmdMsgs
-                | FollowersCmdMsgs subCmdMsgs -> map FollowersPage.mapCmdMsgToCmd FollowersPageMsg subCmdMsgs
+                | FavoritesCmdMsgs subCmdMsgs -> map FavoritesPage.mapCmdMsgToCmd FavoritesPageMsg subCmdMsgs
 
             cmdMsgs |> List.map mapSubpageCmdMsg |> List.collect id |> Cmd.batch
 
@@ -56,15 +56,19 @@ module App =
         | SearchPageMsg msg ->
             let searchModel, cmdMsgs = SearchPage.update msg model.SearchModel
             { model with SearchModel = searchModel }, [ SubpageCmdMsgs [ SearchCmdMsgs cmdMsgs ] ]
-        | FollowersPageMsg msg ->
-            let followersModel, cmdMsgs = FollowersPage.update msg model.FollowersModel
+        | FavoritesPageMsg msg ->
+            let favoritesModel, cmdMsgs = FavoritesPage.update msg model.FavoritesModel
 
             { model with
-                FollowersModel = followersModel },
-            [ SubpageCmdMsgs cmdMsgs ]
+                FavoritesModel = favoritesModel },
+            [ SubpageCmdMsgs [ FavoritesCmdMsgs cmdMsgs ] ]
 
     let view model =
-        View.map SearchPageMsg (SearchPage.view model.SearchModel)
+        (TabControl(Dock.Bottom) {
+            TabItem("Search", View.map SearchPageMsg (SearchPage.view model.SearchModel))
+            TabItem("Favorites", View.map FavoritesPageMsg (FavoritesPage.view model.FavoritesModel))
+        })
+            .centerHorizontal()
 
 #if MOBILE
     let app model = SingleViewApplication(view model)
