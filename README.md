@@ -43,6 +43,12 @@ The TicTacToe App is a sample application that demonstrates how to use Fabulous 
 
 [Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/TicTacToe)
 
+### MVU GitHubClient
+
+The GitHub Client App is a sample application that demonstrates how to use Fabulous to use the [GitHub API](https://docs.github.com/en/rest)
+
+[Browse source](https://github.com/fabulous-dev/Fabulous.Samples/tree/main/MVU/GitHubClient)
+
 Other useful links:
 - [Contributor Guide](CONTRIBUTING.md)
 
