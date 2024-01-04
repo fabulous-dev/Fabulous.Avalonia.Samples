@@ -50,12 +50,6 @@ module GitHubService =
         client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json")
         client.GetAsync(urlString)
 
-    let private fetchGetByteArrayAsyncWitHeader (urlString: string) =
-        let client = new HttpClient()
-        client.DefaultRequestHeaders.Add("User-Agent", "F# App")
-        client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json")
-        client.GetByteArrayAsync(urlString)
-
     let getUserInfo (userName: string) =
         let urlString = $"{URlConstants.githubBaseUrl}%s{userName}"
 
