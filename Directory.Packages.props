@@ -7,6 +7,7 @@
     <PackageVersion Include="Fabulous.Avalonia" Version="2.0.0" />
     <PackageVersion Include="FsCheck.NUnit" Version="2.16.4" />
     <PackageVersion Include="FSharp.Core" Version="8.0.100" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
     <PackageVersion Include="NUnit" Version="3.13.3" />
@@ -19,5 +20,6 @@
     <PackageVersion Include="Avalonia.Desktop" Version="11.0.6" />
     <PackageVersion Include="Avalonia.Browser" Version="11.0.6" />
     <PackageVersion Include="Avalonia.Skia" Version="11.0.6" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
 </Project>
