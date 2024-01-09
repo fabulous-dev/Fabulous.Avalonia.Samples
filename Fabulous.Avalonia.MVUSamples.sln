@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CounterApp", "MVU\CounterApp\CounterApp.fsproj", "{E2143DA6-7783-42DA-A8BF-EF5124FC06E2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DrawingApp", "MVU\DrawingApp\DrawingApp.fsproj", "{2698CB5A-A34E-4FB4-8A62-CB51CB619272}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GameOfLife", "MVU\GameOfLife\GameOfLife.fsproj", "{5696B43D-363A-4B31-BF54-1E81E4F53F8C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GitHubClient", "MVU\GitHubClient\GitHubClient.fsproj", "{4A3BC629-EE14-4760-8F5E-C19F5B3659AB}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tetris", "MVU\Tetris\Tetris.fsproj", "{0F174D6D-6152-4649-9BE5-B41D52A155C6}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TicTacToe", "MVU\TicTacToe\TicTacToe.fsproj", "{CFF43F4F-2C66-4E68-8399-6B47AD8B0AA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2143DA6-7783-42DA-A8BF-EF5124FC06E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2143DA6-7783-42DA-A8BF-EF5124FC06E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2143DA6-7783-42DA-A8BF-EF5124FC06E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2143DA6-7783-42DA-A8BF-EF5124FC06E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2698CB5A-A34E-4FB4-8A62-CB51CB619272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2698CB5A-A34E-4FB4-8A62-CB51CB619272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2698CB5A-A34E-4FB4-8A62-CB51CB619272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2698CB5A-A34E-4FB4-8A62-CB51CB619272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5696B43D-363A-4B31-BF54-1E81E4F53F8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5696B43D-363A-4B31-BF54-1E81E4F53F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5696B43D-363A-4B31-BF54-1E81E4F53F8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5696B43D-363A-4B31-BF54-1E81E4F53F8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A3BC629-EE14-4760-8F5E-C19F5B3659AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A3BC629-EE14-4760-8F5E-C19F5B3659AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A3BC629-EE14-4760-8F5E-C19F5B3659AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A3BC629-EE14-4760-8F5E-C19F5B3659AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F174D6D-6152-4649-9BE5-B41D52A155C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F174D6D-6152-4649-9BE5-B41D52A155C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F174D6D-6152-4649-9BE5-B41D52A155C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F174D6D-6152-4649-9BE5-B41D52A155C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF43F4F-2C66-4E68-8399-6B47AD8B0AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF43F4F-2C66-4E68-8399-6B47AD8B0AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF43F4F-2C66-4E68-8399-6B47AD8B0AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF43F4F-2C66-4E68-8399-6B47AD8B0AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
