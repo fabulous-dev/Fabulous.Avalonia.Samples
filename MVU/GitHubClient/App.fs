@@ -2,7 +2,7 @@ namespace GitHubClient
 
 open System.Diagnostics
 open System.IO
-open Avalonia.Media.Imaging
+open Avalonia.Media
 open Avalonia.Themes.Fluent
 open Fabulous
 open Fabulous.Avalonia
@@ -75,7 +75,7 @@ module GitHubService =
 
             return
                 match response.StatusCode with
-                | HttpStatusCode.OK -> Ok(new Bitmap(new MemoryStream(data)))
+                | HttpStatusCode.OK -> Ok(new MemoryStream(data))
                 | _ -> Error Non200Response
         }
 
@@ -86,7 +86,7 @@ module App =
         | SearchClicked
         | UserInfoLoaded of User
         | UserInfoNotFound of GitHubError
-        | ProfileImageLoaded of Bitmap
+        | ProfileImageLoaded of Stream
         | ProfileImageNotFound of GitHubError
         | LoadingProgress of float
 
@@ -97,7 +97,7 @@ module App =
     type Model =
         { UserName: string
           UserInfo: RemoteData<string, User>
-          ProfileImage: RemoteData<string, Bitmap> }
+          ProfileImage: RemoteData<string, Stream> }
 
     let init () =
         { UserName = ""
@@ -162,7 +162,7 @@ module App =
     let view model =
         Grid() {
             (VStack() {
-                Image(ImageSource.fromString("avares://GitHubClient/Assets/github-icon.png"))
+                Image("avares://GitHubClient/Assets/github-icon.png")
                     .size(100., 100.)
 
                 TextBox(model.UserName, UserNameChanged)
@@ -176,9 +176,9 @@ module App =
                         match model.ProfileImage with
                         | NotAsked -> ()
                         | Loading -> ()
-                        | Content bitmap -> Image(bitmap).size(24., 24.)
+                        | Content source -> Image(source).size(24., 24.)
                         | Failure _ ->
-                            Image(ImageSource.fromString("avares://GitHubClient/Assets/github-icon.png"))
+                            Image("avares://GitHubClient/Assets/github-icon.png", Stretch.Uniform)
                                 .size(24., 24.)
 
                         TextBlock(user.login)
