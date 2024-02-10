@@ -125,8 +125,8 @@ module App =
 
     let mapCmdMsgToCmd cmdMsg =
         match cmdMsg with
-        | GetUserInfo userName -> Cmd.ofTaskMsg(getUserInfo userName)
-        | GetProfileImage url -> Cmd.ofTaskMsg(getProfileImage url)
+        | GetUserInfo userName -> Cmd.OfTask.msg(getUserInfo userName)
+        | GetProfileImage url -> Cmd.OfTask.msg(getProfileImage url)
 
     let update msg model =
         match msg with
@@ -159,7 +159,7 @@ module App =
 
         | LoadingProgress _ -> model, []
 
-    let view model =
+    let content model =
         Grid() {
             (VStack() {
                 Image("avares://GitHubClient/Assets/github-icon.png")
@@ -210,22 +210,26 @@ module App =
                 .centerHorizontal()
         }
 
+    let view model =
 #if MOBILE
-    let app model = SingleViewApplication(view model)
+        SingleViewApplication(content model)
 #else
-    let app model = DesktopApplication(Window(view model))
+        DesktopApplication(Window(content model))
 #endif
+    let create () =
+        let theme () = FluentTheme()
 
-    let theme = FluentTheme()
-
-    let program =
-        Program.statefulWithCmdMsg init update app mapCmdMsgToCmd
-        |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
-        |> Program.withExceptionHandler(fun ex ->
+        let program =
+            Program.statefulWithCmdMsg init update mapCmdMsgToCmd
+            |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+            |> Program.withExceptionHandler(fun ex ->
 #if DEBUG
-            printfn $"Exception: %s{ex.ToString()}"
-            false
+                printfn $"Exception: %s{ex.ToString()}"
+                false
 #else
-            true
+                true
 #endif
-        )
+            )
+            |> Program.withView view
+
+        FabulousAppBuilder.Configure(theme, program)
