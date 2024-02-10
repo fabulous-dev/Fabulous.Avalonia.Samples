@@ -1,6 +1,7 @@
 namespace GameOfLife
 
 open System
+open System.Diagnostics
 open Avalonia
 open Avalonia.Controls
 open Avalonia.Layout
@@ -217,7 +218,7 @@ module App =
                     board = Board.update msg model.board },
                 Cmd.none
 
-    let view (model: Model) =
+    let content (model: Model) =
         (Dock() {
             Button("Start", StartEvolution)
                 .horizontalAlignment(HorizontalAlignment.Stretch)
@@ -237,10 +238,26 @@ module App =
         })
             .margin(0., 50., 0., 50.)
 
+    let view model =
 #if MOBILE
-    let app model = SingleViewApplication(view model)
+        SingleViewApplication(content model)
 #else
-    let app model = DesktopApplication(Window(view model))
+        DesktopApplication(Window(content model))
 #endif
-    let program =
-        Program.statefulWithCmd init update app |> Program.withSubscription subscription
+    let create () =
+        let theme () = FluentTheme()
+
+        let program =
+            Program.statefulWithCmd init update
+            |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+            |> Program.withExceptionHandler(fun ex ->
+#if DEBUG
+                printfn $"Exception: %s{ex.ToString()}"
+                false
+#else
+                true
+#endif
+            )
+            |> Program.withView view
+
+        FabulousAppBuilder.Configure(theme, program)
