@@ -1,5 +1,6 @@
 namespace CounterApp
 
+open System.Diagnostics
 open Fabulous
 open Fabulous.Avalonia
 open Avalonia.Themes.Fluent
@@ -7,8 +8,6 @@ open Avalonia.Themes.Fluent
 open type Fabulous.Avalonia.View
 
 module App =
-    let theme = FluentTheme()
-
     type Model =
         { Count: int; Step: int; TimerOn: bool }
 
@@ -27,7 +26,7 @@ module App =
             do! Async.Sleep 200
             return TimedTick
         }
-        |> Cmd.ofAsyncMsg
+        |> Cmd.OfAsync.msg
 
     let init () = initModel, Cmd.none
 
@@ -52,7 +51,7 @@ module App =
             else
                 model, Cmd.none
 
-    let view model =
+    let content model =
         (VStack() {
             TextBlock($"%d{model.Count}").centerText()
 
@@ -77,10 +76,26 @@ module App =
         })
             .center()
 
+    let view model =
 #if MOBILE
-    let app model = SingleViewApplication(view model)
+        SingleViewApplication(content model)
 #else
-    let app model = DesktopApplication(Window(view model))
+        DesktopApplication(Window(content model))
 #endif
+    let create () =
+        let theme () = FluentTheme()
 
-    let program = Program.statefulWithCmd init update app
+        let program =
+            Program.statefulWithCmd init update
+            |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+            |> Program.withExceptionHandler(fun ex ->
+#if DEBUG
+                printfn $"Exception: %s{ex.ToString()}"
+                false
+#else
+                true
+#endif
+            )
+            |> Program.withView view
+
+        FabulousAppBuilder.Configure(theme, program)
