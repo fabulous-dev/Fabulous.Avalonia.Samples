@@ -1,5 +1,6 @@
 namespace DrawingApp
 
+open System.Diagnostics
 open Avalonia
 open Avalonia.Controls
 open Avalonia.Layout
@@ -209,18 +210,34 @@ module App =
                 DrawingCanvas = drawingCanvas },
             Cmd.none
 
-    let view (model: Model) =
+    let content (model: Model) =
         (Dock() {
             View.map SettingMsg (Setting.view(model.Setting).dock(Dock.Bottom))
             View.map DrawingCanvasMsg (DrawingCanvas.view(model.DrawingCanvas).dock(Dock.Top))
         })
             .background(SolidColorBrush(Colors.White))
 
-#if MOBILE
-    let app model = SingleViewApplication(view model)
-#else
-    let app model =
-        DesktopApplication(Window(view model).size(500., 500.))
-#endif
 
-    let program = Program.statefulWithCmd init update app
+    let view model =
+#if MOBILE
+        SingleViewApplication(content model)
+#else
+        DesktopApplication(Window(content model))
+#endif
+    let create () =
+        let theme () = FluentTheme()
+
+        let program =
+            Program.statefulWithCmd init update
+            |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+            |> Program.withExceptionHandler(fun ex ->
+#if DEBUG
+                printfn $"Exception: %s{ex.ToString()}"
+                false
+#else
+                true
+#endif
+            )
+            |> Program.withView view
+
+        FabulousAppBuilder.Configure(theme, program)
