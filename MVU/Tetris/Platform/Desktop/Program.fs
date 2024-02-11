@@ -3,19 +3,14 @@ namespace Tetris.Desktop
 open System
 open Avalonia
 
-open Avalonia.Themes.Fluent
 open Tetris
-open Fabulous.Avalonia
 
 module Program =
 
     [<CompiledName "BuildAvaloniaApp">]
     let buildAvaloniaApp () =
-        AppBuilder
-            .Configure(fun () ->
-                let app = Program.startApplication App.program
-                app.Styles.Add(App.theme)
-                app)
+        App
+            .create()
             .LogToTrace(areas = Array.empty)
             .UsePlatformDetect()
 

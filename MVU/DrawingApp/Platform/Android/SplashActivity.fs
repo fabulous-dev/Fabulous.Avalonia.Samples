@@ -2,9 +2,6 @@ namespace DrawingApp.Android
 
 open Android.App
 open Android.Content
-open Avalonia
-open Avalonia.Android
-open Fabulous.Avalonia
 
 [<Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true)>]
 type SplashActivity() =

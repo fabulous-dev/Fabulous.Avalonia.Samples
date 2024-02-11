@@ -1,6 +1,5 @@
 namespace GitHubClient.iOS
 
-open System
 open Foundation
 open Fabulous.Avalonia
 open GitHubClient

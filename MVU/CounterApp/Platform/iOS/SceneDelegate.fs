@@ -1,6 +1,5 @@
 namespace CounterApp.iOS
 
-open Avalonia.Themes.Fluent
 open Foundation
 open Fabulous.Avalonia
 open CounterApp

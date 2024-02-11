@@ -2,7 +2,6 @@ namespace GameOfLife
 
 open System
 open System.Diagnostics
-open Avalonia
 open Avalonia.Controls
 open Avalonia.Layout
 open Avalonia.Media
@@ -191,14 +190,15 @@ module App =
         | StopEvolution
 
     let subscription (_model: Model) =
-        Cmd.ofSub(fun dispatch ->
+        let timeSub dispatch =
             DispatcherTimer.Run(
                 Func<bool>(fun _ ->
                     dispatch(BoardMsg(Board.Evolve))
                     true),
                 TimeSpan.FromMilliseconds 100.0
             )
-            |> ignore)
+
+        [ [ nameof timeSub ], timeSub ]
 
     let update msg model =
         match msg with
@@ -249,6 +249,7 @@ module App =
 
         let program =
             Program.statefulWithCmd init update
+            |> Program.withSubscription subscription
             |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
             |> Program.withExceptionHandler(fun ex ->
 #if DEBUG

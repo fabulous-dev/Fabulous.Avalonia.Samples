@@ -2,8 +2,8 @@ namespace Tetris
 namespace Tetris
 
 open System
+open System.Diagnostics
 open Avalonia.Controls
-open Avalonia.Input
 open Avalonia.Layout
 open Avalonia.Threading
 open Fabulous
@@ -278,7 +278,7 @@ module App =
             Button("New Game", NewGame).fontSize(16.0).margin(4.0)
         }
 
-    let view (model: Model) =
+    let content (model: Model) =
         if model.isOver then
             AnyView(gameOverView())
         else
@@ -302,35 +302,37 @@ module App =
             )
 
     let subscription (_model: Model) =
-        Cmd.ofSub(fun dispatch ->
+        let timeSub dispatch =
             DispatcherTimer.Run(
                 Func<bool>(fun _ ->
                     dispatch(Msg.Update)
                     true),
                 TimeSpan.FromMilliseconds 10.0
             )
-            |> ignore)
 
+        [ [ nameof timeSub ], timeSub ]
+
+    let view model =
 #if MOBILE
-    let app model = SingleViewApplication(view model)
+        SingleViewApplication(content model)
 #else
-    let app model =
-        DesktopApplication(
-            Window(view model)
-                .title("Tetris")
-                .width(450.0)
-                .height(600.0)
-                .onKeyDown(fun eventArgs ->
-                    match eventArgs.Key with
-                    | Key.RightShift -> Msg.RotL
-                    | Key.LeftShift -> Msg.RotL
-                    | Key.Space -> Msg.RotR
-                    | Key.S -> Msg.Down
-                    | Key.A -> Msg.Left
-                    | Key.D -> Msg.Right
-                    | Key.E -> Msg.Hold
-                    | _ -> Msg.Empty)
-        )
+        DesktopApplication(Window(content model))
 #endif
-    let program =
-        Program.statefulWithCmd init update app |> Program.withSubscription subscription
+    let create () =
+        let theme () = FluentTheme()
+
+        let program =
+            Program.statefulWithCmd init update
+            |> Program.withSubscription subscription
+            |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+            |> Program.withExceptionHandler(fun ex ->
+#if DEBUG
+                printfn $"Exception: %s{ex.ToString()}"
+                false
+#else
+                true
+#endif
+            )
+            |> Program.withView view
+
+        FabulousAppBuilder.Configure(theme, program)

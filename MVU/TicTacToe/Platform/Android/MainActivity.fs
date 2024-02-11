@@ -4,7 +4,6 @@ open Android.App
 open Android.Content.PM
 open Avalonia
 open Avalonia.Android
-open Avalonia.Themes.Fluent
 open Fabulous.Avalonia
 open TicTacToe
 
@@ -16,10 +15,4 @@ open TicTacToe
 type MainActivity() =
     inherit AvaloniaMainActivity<FabApplication>()
 
-    override this.CustomizeAppBuilder(_builder: AppBuilder) =
-        AppBuilder
-            .Configure(fun () ->
-                let app = Program.startApplication App.program
-                app.Styles.Add(App.theme)
-                app)
-            .UseAndroid()
+    override this.CustomizeAppBuilder(_builder: AppBuilder) = App.create().UseAndroid()

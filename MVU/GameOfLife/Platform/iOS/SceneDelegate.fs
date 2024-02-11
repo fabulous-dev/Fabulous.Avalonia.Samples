@@ -1,6 +1,5 @@
 namespace GameOfLife.iOS
 
-open Avalonia.Themes.Fluent
 open Foundation
 open Fabulous.Avalonia
 open GameOfLife

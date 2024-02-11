@@ -1,6 +1,7 @@
 namespace TicTacToe
 
 open System
+open System.Diagnostics
 open Avalonia.Interactivity
 open Avalonia.Media
 open Fabulous
@@ -170,7 +171,7 @@ module App =
     let canPlay model cell =
         (cell = Empty) && (getGameResult model = StillPlaying)
 
-    let view model =
+    let content model =
         (Grid(coldefs = [ Star ], rowdefs = [ Auto; Star; Auto ]) {
             TextBlock(getMessage model)
                 .textAlignment(TextAlignment.Center)
@@ -235,10 +236,26 @@ module App =
             .onLoaded(Loaded)
 
 
+    let view model =
 #if MOBILE
-    let app model = SingleViewApplication(view model)
-
+        SingleViewApplication(content model)
 #else
-    let app model = DesktopApplication(Window(view model))
+        DesktopApplication(Window(content model))
 #endif
-    let program = Program.statefulWithCmd init update app
+    let create () =
+        let theme () = FluentTheme()
+
+        let program =
+            Program.statefulWithCmd init update
+            |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+            |> Program.withExceptionHandler(fun ex ->
+#if DEBUG
+                printfn $"Exception: %s{ex.ToString()}"
+                false
+#else
+                true
+#endif
+            )
+            |> Program.withView view
+
+        FabulousAppBuilder.Configure(theme, program)
