@@ -3,24 +3,24 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Fabulous" Version="2.5.0-pre8" />
-    <PackageVersion Include="Fabulous.Avalonia" Version="2.4.0-pre1" />
+    <PackageVersion Include="Fabulous" Version="3.0.0-pre2" />
+    <PackageVersion Include="Fabulous.Avalonia" Version="3.0.0-pre2" />
     <PackageVersion Include="FsCheck.NUnit" Version="2.16.4" />
-    <PackageVersion Include="FSharp.Core" Version="8.0.101" />
+    <PackageVersion Include="FSharp.Core" Version="8.0.200" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
     <PackageVersion Include="NUnit" Version="3.13.3" />
     <PackageVersion Include="FsUnit" Version="5.2.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
-    <PackageVersion Include="Avalonia" Version="11.0.9" />
-    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.0.9" />
-    <PackageVersion Include="Avalonia.Android" Version="11.0.9" />
-    <PackageVersion Include="Avalonia.iOS" Version="11.0.9" />
-    <PackageVersion Include="Avalonia.Desktop" Version="11.0.9" />
-    <PackageVersion Include="Avalonia.Browser" Version="11.0.9" />
-    <PackageVersion Include="Avalonia.Skia" Version="11.0.9" />
+    <PackageVersion Include="Avalonia" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.Android" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.iOS" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.Browser" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.Skia" Version="11.0.10" />
     <PackageVersion Include="sqlite-net" Version="1.6.292" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.1" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.3" />
   </ItemGroup>
 </Project>
