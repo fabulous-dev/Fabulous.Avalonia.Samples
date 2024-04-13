@@ -1,5 +1,6 @@
 namespace MvuDrawingApp
 
+open System.Diagnostics
 open Avalonia
 open Avalonia.Controls
 open Avalonia.Layout
@@ -27,37 +28,31 @@ module ColorPicker =
 
     type Msg = PointerPressed of Color
 
-    let init color () = { Color = color }
+    let init () = { Color = Colors.Black }
 
     let update msg model =
         match msg with
-        | PointerPressed color -> { model with Color = color }
+        | PointerPressed color -> { Color = color }
 
-    let program (color: Color) = Program.stateful (init color) update
-
-    let view color () =
+    let view (model: Model) =
         let brushes = [ Colors.Black; Colors.Red; Colors.Green; Colors.Blue; Colors.Yellow ]
 
-        Component(program color) {
-            let! model = Mvu.State
-
-            HStack(5.) {
-                for item in brushes do
-                    View
-                        .EmptyBorder()
-                        .width(32.0)
-                        .height(32.0)
-                        .cornerRadius(16.0)
-                        .background(SolidColorBrush(item))
-                        .borderThickness(4.0)
-                        .borderBrush(
-                            if item = model.Color then
-                                SolidColorBrush(item)
-                            else
-                                SolidColorBrush(Colors.Transparent)
-                        )
-                        .onPointerPressed(fun _ -> PointerPressed item)
-            }
+        HStack(5.) {
+            for item in brushes do
+                View
+                    .EmptyBorder()
+                    .width(32.0)
+                    .height(32.0)
+                    .cornerRadius(16.0)
+                    .background(SolidColorBrush(item))
+                    .borderThickness(4.0)
+                    .borderBrush(
+                        if item = model.Color then
+                            SolidColorBrush(item)
+                        else
+                            SolidColorBrush(Colors.Transparent)
+                    )
+                    .onPointerPressed(fun _ -> PointerPressed item)
         }
 
 module SizePicker =
@@ -65,53 +60,68 @@ module SizePicker =
 
     type Msg = PointerPressed of float
 
-    let init () = { Size = 2. }, Cmd.none
+    let init () = { Size = 2. }
 
     let update msg model =
         match msg with
-        | PointerPressed size -> { Size = size }, Cmd.none
+        | PointerPressed size -> { Size = size }
 
-    let program = Program.statefulWithCmd init update
-
-    let view () =
+    let view (model: Model) =
         let sizes = [ 2.; 4.; 6.; 8.; 16.; 32. ]
 
-        Component(program) {
-            let! model = Mvu.State
-
-            HStack(5.) {
-                for item in sizes do
-                    View
-                        .EmptyBorder()
-                        .width(item)
-                        .height(item)
-                        .cornerRadius(item / 2.0)
-                        .background(
-                            if item = model.Size then
-                                SolidColorBrush(Colors.Black)
-                            else
-                                SolidColorBrush(Colors.Gray)
-                        )
-                        .onPointerPressed(fun _ -> PointerPressed item)
-            }
+        HStack(5.) {
+            for item in sizes do
+                View
+                    .EmptyBorder()
+                    .width(item)
+                    .height(item)
+                    .cornerRadius(item / 2.0)
+                    .background(
+                        if item = model.Size then
+                            SolidColorBrush(Colors.Black)
+                        else
+                            SolidColorBrush(Colors.Gray)
+                    )
+                    .onPointerPressed(fun _ -> PointerPressed item)
         }
 
 module Setting =
-    let view color =
-        Component() {
-            Border(
-                Dock(false) {
-                    ColorPicker.view color ()//).dock(Dock.Left)
-                    SizePicker.view()//.dock(Dock.Right)
-                }
-            )
-                .dock(Dock.Bottom)
-                .margin(5.0)
-                .padding(5.0)
-                .cornerRadius(8.0)
-                .background("#bdc3c7")
-        }
+    type Model =
+        { ColorPicker: ColorPicker.Model
+          SizePicker: SizePicker.Model }
 
+    type Msg =
+        | ColorPickerMsg of ColorPicker.Msg
+        | SizePickerMsg of SizePicker.Msg
+
+    let initModel =
+        { ColorPicker = ColorPicker.init()
+          SizePicker = SizePicker.init() }
+
+    let init () = initModel
+
+    let update msg model =
+        match msg with
+        | ColorPickerMsg msg ->
+            let colorPicker = ColorPicker.update msg model.ColorPicker
+            { model with ColorPicker = colorPicker }
+
+        | SizePickerMsg msg ->
+            let sizePicker = SizePicker.update msg model.SizePicker
+            { model with SizePicker = sizePicker }
+
+    let view (model: Model) =
+        Border(
+            Dock(false) {
+                View.map ColorPickerMsg (ColorPicker.view(model.ColorPicker).dock(Dock.Left))
+                View.map SizePickerMsg (SizePicker.view(model.SizePicker).dock(Dock.Right))
+            }
+        )
+            .dock(Dock.Bottom)
+            .margin(5.0)
+            .padding(5.0)
+            .cornerRadius(8.0)
+            .background("#bdc3c7")
 
 module DrawingCanvas =
     type Model =
@@ -125,20 +135,18 @@ module DrawingCanvas =
         | PointerReleased of Input.PointerReleasedEventArgs
         | PointerMoved of Input.PointerEventArgs
 
-    let init (color: Color) (size: float) () =
+    let init () =
         { IsPressed = false
           LastPoint = None
-          Color = color
-          Size = size }
+          Color = Colors.Black
+          Size = 2. }
 
     let canvasRef = ViewRef<Canvas>()
 
-    let update color msg model =
+    let update msg model =
         match msg with
-        | PointerPressed args ->
-            let color = ColorPicker.update
-            { model with IsPressed = true }
-        | PointerReleased args -> { model with IsPressed = false }
+        | PointerPressed _ -> { model with IsPressed = true }
+        | PointerReleased _ -> { model with IsPressed = false }
         | PointerMoved args ->
             let point = args.GetPosition(canvasRef.Value)
 
@@ -158,36 +166,77 @@ module DrawingCanvas =
             else
                 { model with LastPoint = Some point }
 
-    let program color size = Program.stateful (init color size) (update color)
+    let view () =
+        Canvas(canvasRef)
+            .verticalAlignment(VerticalAlignment.Stretch)
+            .horizontalAlignment(HorizontalAlignment.Stretch)
+            .background(SolidColorBrush(Colors.White))
+            .onPointerPressed(PointerPressed)
+            .onPointerReleased(PointerReleased)
+            .onPointerMoved(PointerMoved)
 
-    let view color size =
-        Component(program color size) {
-            Canvas(canvasRef)
-                .verticalAlignment(VerticalAlignment.Stretch)
-                .horizontalAlignment(HorizontalAlignment.Stretch)
-                .background(SolidColorBrush(Colors.White))
-                .onPointerPressed(PointerPressed)
-                .onPointerReleased(PointerReleased)
-                .onPointerMoved(PointerMoved)
-        }
 
 module App =
-    let content () =
-        (Component() {
-            Dock() {
-                (Setting.view Colors.Black).dock(Dock.Bottom)
-                (DrawingCanvas.view Colors.Black 10.).dock(Dock.Top)
-            }
+    let theme = FluentTheme()
+
+    type Model =
+        { Setting: Setting.Model
+          DrawingCanvas: DrawingCanvas.Model }
+
+    type Msg =
+        | SettingMsg of Setting.Msg
+        | DrawingCanvasMsg of DrawingCanvas.Msg
+
+    let init () =
+        { Setting = Setting.initModel
+          DrawingCanvas = DrawingCanvas.init() }
+
+    let update msg model =
+        match msg with
+        | SettingMsg msg ->
+            let setting = Setting.update msg model.Setting
+            { model with Setting = setting }
+
+        | DrawingCanvasMsg msg ->
+            let drawingCanvas =
+                { model.DrawingCanvas with
+                    Color = model.Setting.ColorPicker.Color
+                    Size = model.Setting.SizePicker.Size }
+
+            let drawingCanvas = DrawingCanvas.update msg drawingCanvas
+
+            { model with
+                DrawingCanvas = drawingCanvas }
+
+    let content (model: Model) =
+        (Dock() {
+            View.map SettingMsg (Setting.view(model.Setting).dock(Dock.Bottom))
+            View.map DrawingCanvasMsg (DrawingCanvas.view().dock(Dock.Top))
         })
             .background(SolidColorBrush(Colors.White))
 
-    let view() =
-#if MOBILE
-        SingleViewApplication(content())
+    let program =
+        Program.stateful init update
+        |> Program.withTrace(fun (format, args) -> Debug.WriteLine(format, box args))
+        |> Program.withExceptionHandler(fun ex ->
+#if DEBUG
+            printfn $"Exception: %s{ex.ToString()}"
+            false
 #else
-        DesktopApplication(Window(content()))
+            true
+#endif
+        )
+
+    let view () =
+        Component(program) {
+            let! model = Mvu.State
+#if MOBILE
+            SingleViewApplication(content model)
+#else
+            DesktopApplication(Window(content model))
 #endif
 
+        }
+
     let create () =
-        let theme () = FluentTheme()
-        FabulousAppBuilder.Configure(theme, view)
+        FabulousAppBuilder.Configure(FluentTheme, view)
