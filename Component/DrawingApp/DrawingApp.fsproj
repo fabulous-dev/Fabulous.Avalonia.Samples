@@ -5,6 +5,7 @@
         <!-- net8.0-ios is not supported on Linux, so we do not add it there. -->
         <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('linux')) == false">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
         <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+        <RootNamespace>DrawingApp</RootNamespace>
     </PropertyGroup>
     <PropertyGroup>
         <AvaloniaPlatform>$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))</AvaloniaPlatform>
@@ -23,28 +24,28 @@
         <CodesignKey>Apple Development: Timothé Larivière (X6N2KN9WK3)</CodesignKey>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="App.fs" />
+        <Compile Include="App.fs"/>
     </ItemGroup>
     <ItemGroup>
-        <None Include="Properties\**" />
+        <None Include="Properties\**"/>
     </ItemGroup>
     <ItemGroup Condition="$(AvaloniaPlatform) == 'Android'">
-        <AndroidResource Include="$(AndroidPlatformFolder)Resources\**\*" />
-        <None Include="$(AndroidPlatformFolder)AndroidManifest.xml" />
-        <Compile Include="$(AndroidPlatformFolder)MainActivity.fs" />
-        <Compile Include="$(AndroidPlatformFolder)SplashActivity.fs" />
+        <AndroidResource Include="$(AndroidPlatformFolder)Resources\**\*"/>
+        <None Include="$(AndroidPlatformFolder)AndroidManifest.xml"/>
+        <Compile Include="$(AndroidPlatformFolder)MainActivity.fs"/>
+        <Compile Include="$(AndroidPlatformFolder)SplashActivity.fs"/>
         <PackageReference Include="Avalonia.Android" />
     </ItemGroup>
     <ItemGroup Condition="$(AvaloniaPlatform) == 'iOS'">
-        <None Include="$(iOSPlatformFolder)Entitlements.plist" />
-        <None Include="$(iOSPlatformFolder)Info.plist" />
-        <InterfaceDefinition Include="$(iOSPlatformFolder)*.storyboard;$(iOSPlatformFolder)*.xib" />
-        <Compile Include="$(iOSPlatformFolder)SceneDelegate.fs" />
-        <Compile Include="$(iOSPlatformFolder)AppDelegate.fs" />
+        <None Include="$(iOSPlatformFolder)Entitlements.plist"/>
+        <None Include="$(iOSPlatformFolder)Info.plist"/>
+        <InterfaceDefinition Include="$(iOSPlatformFolder)*.storyboard;$(iOSPlatformFolder)*.xib"/>
+        <Compile Include="$(iOSPlatformFolder)SceneDelegate.fs"/>
+        <Compile Include="$(iOSPlatformFolder)AppDelegate.fs"/>
         <PackageReference Include="Avalonia.iOS" />
     </ItemGroup>
     <ItemGroup Condition="$(AvaloniaPlatform) == 'Desktop'">
-        <Compile Include="$(DesktopPlatformFolder)Program.fs" />
+        <Compile Include="$(DesktopPlatformFolder)Program.fs"/>
         <PackageReference Include="Avalonia.Desktop" />
     </ItemGroup>
 

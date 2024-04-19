@@ -132,8 +132,8 @@ module DrawingCanvas =
           Size: float }
 
     type Msg =
-        | PointerPressed
-        | PointerReleased
+        | PointerPressed of Input.PointerPressedEventArgs
+        | PointerReleased of Input.PointerReleasedEventArgs
         | PointerMoved of Input.PointerEventArgs
 
     let init () =
@@ -146,8 +146,8 @@ module DrawingCanvas =
 
     let update msg model =
         match msg with
-        | PointerPressed -> { model with IsPressed = true }
-        | PointerReleased -> { model with IsPressed = false }
+        | PointerPressed _ -> { model with IsPressed = true }
+        | PointerReleased _ -> { model with IsPressed = false }
         | PointerMoved args ->
             let point = args.GetPosition(canvasRef.Value)
 
@@ -167,13 +167,13 @@ module DrawingCanvas =
             else
                 { model with LastPoint = Some point }
 
-    let view (_: Model) =
+    let view () =
         Canvas(canvasRef)
             .verticalAlignment(VerticalAlignment.Stretch)
             .horizontalAlignment(HorizontalAlignment.Stretch)
             .background(SolidColorBrush(Colors.White))
-            .onPointerPressed(fun _ -> PointerPressed)
-            .onPointerReleased(fun _ -> PointerReleased)
+            .onPointerPressed(PointerPressed)
+            .onPointerReleased(PointerReleased)
             .onPointerMoved(PointerMoved)
 
 module App =
@@ -213,7 +213,7 @@ module App =
     let content (model: Model) =
         (Dock() {
             View.map SettingMsg (Setting.view(model.Setting).dock(Dock.Bottom))
-            View.map DrawingCanvasMsg (DrawingCanvas.view(model.DrawingCanvas).dock(Dock.Top))
+            View.map DrawingCanvasMsg (DrawingCanvas.view().dock(Dock.Top))
         })
             .background(SolidColorBrush(Colors.White))
 

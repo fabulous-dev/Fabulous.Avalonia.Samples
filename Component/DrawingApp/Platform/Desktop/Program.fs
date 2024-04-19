@@ -1,9 +1,9 @@
-namespace MvuCounterApp.Desktop
+namespace DrawingApp.Desktop
 
 open System
 open Avalonia
 
-open MvuCounterApp
+open DrawingApp
 
 module Program =
 

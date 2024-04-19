@@ -1,4 +1,4 @@
-namespace MvuCounterApp.iOS
+namespace DrawingApp.iOS
 
 open Foundation
 open UIKit
