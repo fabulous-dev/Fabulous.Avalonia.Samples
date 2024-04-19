@@ -1,13 +1,13 @@
-namespace MvuDrawingApp.Android
+namespace CounterApp.Android
 
 open Android.App
 open Android.Content.PM
 open Avalonia
 open Avalonia.Android
+open CounterApp
 open Fabulous.Avalonia
-open MvuDrawingApp
 
-[<Activity(Label = "MvuDrawingApp.Android",
+[<Activity(Label = "Counter.Android",
            Theme = "@style/MyTheme.NoActionBar",
            Icon = "@drawable/icon",
            LaunchMode = LaunchMode.SingleTop,

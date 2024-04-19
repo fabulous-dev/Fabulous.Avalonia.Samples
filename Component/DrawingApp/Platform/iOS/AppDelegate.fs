@@ -1,4 +1,4 @@
-namespace MvuDrawingApp.iOS
+namespace DrawingApp.iOS
 
 open Foundation
 open UIKit

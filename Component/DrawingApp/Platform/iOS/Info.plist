@@ -3,7 +3,7 @@
 <plist version="1.0">
     <dict>
         <key>CFBundleDisplayName</key>
-        <string>MvuDrawingApp</string>
+        <string>DrawingApp</string>
         <key>CFBundleIdentifier</key>
         <string>org.fabulous.avalonia.DrawingApp</string>
         <key>CFBundleShortVersionString</key>

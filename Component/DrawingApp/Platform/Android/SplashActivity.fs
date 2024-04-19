@@ -1,4 +1,4 @@
-namespace MvuCounterApp.Android
+namespace DrawingApp.Android
 
 open Android.App
 open Android.Content

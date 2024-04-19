@@ -1,4 +1,4 @@
-namespace MvuCounterApp
+namespace CounterApp
 
 open System.Diagnostics
 open Fabulous

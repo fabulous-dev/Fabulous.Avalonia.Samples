@@ -1,8 +1,8 @@
-namespace MvuDrawingApp.iOS
+namespace ComponentDrawingApp.iOS
 
 open Foundation
 open Fabulous.Avalonia
-open MvuDrawingApp
+open DrawingApp
 open UIKit
 
 [<Register(nameof SceneDelegate)>]
