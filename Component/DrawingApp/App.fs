@@ -102,17 +102,17 @@ module DrawingCanvas =
                 .onPointerPressed(fun _ -> isPressed.Set true)
                 .onPointerReleased(fun _ -> isPressed.Set false)
                 .onPointerMoved(fun args ->
-                    let point = args.GetPosition(canvasRef.Value)
+                    let currentPoint = args.GetPosition(canvasRef.Value)
 
                     if isPressed.Current then
                         match lastPoint.Current with
-                        | Some lastPoint ->
+                        | Some point ->
                             let brush = unbox(ColorToBrushConverter.Convert(box(color.Current), typeof<IBrush>))
 
                             let line =
                                 Shapes.Line(
-                                    StartPoint = lastPoint,
-                                    EndPoint = point,
+                                    StartPoint = point,
+                                    EndPoint = currentPoint,
                                     Stroke = brush,
                                     StrokeThickness = size.Current,
                                     StrokeLineCap = PenLineCap.Round
@@ -121,9 +121,11 @@ module DrawingCanvas =
                             if canvasRef.Value <> null then
                                 canvasRef.Value.Children.Add(line)
 
-                        | None -> lastPoint.Set(Some point)
+                            lastPoint.Set(Some currentPoint)
+
+                        | None -> lastPoint.Set(Some currentPoint)
                     else
-                        lastPoint.Set(Some point))
+                        lastPoint.Set(Some currentPoint))
         }
 
 module App =
