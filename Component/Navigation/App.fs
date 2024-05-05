@@ -29,7 +29,7 @@ module App =
         | BackNavigationMsg -> { Navigation = model.Navigation.Pop() }, Cmd.none
         | BackButtonPressed -> model, notifyBackButtonPressed appMsgDispatcher
 
-    let subscribe (nav: NavigationController) _ =
+    let subscribe (nav: NavigationController) (model: Model) =
         let navRequestedSub dispatch =
             nav.NavigationRequested.Subscribe(fun route -> dispatch(NavigationMsg route))
 

@@ -1,6 +1,8 @@
 namespace NavigationSample
 
+open System
 open System.Diagnostics
+open Avalonia.Interactivity
 open Avalonia.Themes.Fluent
 open Fabulous
 open Fabulous.Avalonia
@@ -20,6 +22,7 @@ module App =
         | BackNavigated
         | NavigationMsg of NavigationState.Msg
         | BackButtonPressed
+        | Loaded of RoutedEventArgs
 
     /// This is where we subscribe to the navigation events
     /// If a navigation forward is requested, we dispatch the NavigationPushed message
@@ -27,7 +30,12 @@ module App =
     let navSubscription () : Cmd<Msg> =
         [ fun dispatch ->
               nav.Navigated.Add(fun path -> dispatch(NavigationPushed path))
-              nav.BackNavigated.Add(fun () -> dispatch BackNavigated) ]
+              nav.BackNavigated.Add(fun () -> dispatch BackNavigated)
+          //NavigationService.Instance.BackButtonPressed.Add(fun _ -> dispatch BackButtonPressed)
+          ]
+
+    let navSubscription2 () : Cmd<Msg> =
+        Cmd.ofEffect(fun dispatch -> FabApplication.Current.TopLevel.BackRequested.Add(fun args -> dispatch BackButtonPressed))
 
     /// In the init function, we initialize the NavigationStack and subscribe to the navigation events
     let init () =
@@ -57,20 +65,23 @@ module App =
 
             { Navigation = model.Navigation.UpdateCurrentPage(m) }, Cmd.map NavigationMsg navCmd
 
+        | Loaded _args -> model, navSubscription2()
+
     /// The view function contains the NavigationPage control that will display the different pages
     /// and handle the navigation animations (push, pop) as well has displaying a back button by default
     ///
-    /// Because of MVU, all the pages need to return the same Msg type but they all have their own.
+    /// Because of MVU, all the pages need to return the same Msg type, but they all have their own.
     /// To be able to wrap those Msgs into the app's root Msg type, we use the View.map helper function.
     let content model =
         VStack(16.) {
             // The page currently displayed is the one on top of the stack
             View.map NavigationMsg (NavigationState.view model.Navigation.CurrentPage)
         }
+        |> _.onLoaded(Loaded)
 
     let view model =
 #if MOBILE
-        SingleViewApplication(content model) //.onBackRequested(fun _ -> BackButtonPressed)
+        SingleViewApplication(content model)
 #else
         DesktopApplication(Window(content model))
 #endif

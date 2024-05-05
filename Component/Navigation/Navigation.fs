@@ -24,7 +24,7 @@ type NavigationController() =
     member this.NavigateBack() = backNavigationRequested.Trigger()
 
 /// The Navigation module is a set of helper functions that will wrap the call to NavigationController into a Cmd.
-/// We do that because navigation is a side-effect and we want to keep it in a Cmd.
+/// We do that because navigation is a side effect, and we want to keep it in a Cmd.
 module Navigation =
     let private navigateTo (nav: NavigationController) path : Cmd<'msg> = [ fun _ -> nav.NavigateTo(path) ]
 
