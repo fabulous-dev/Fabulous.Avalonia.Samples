@@ -224,6 +224,11 @@ module App =
 #else
         DesktopApplication(Window(content model))
 #endif
+
+#if DEBUG
+            .attachDevTools()
+#endif
+
     let create () =
         let theme () = FluentTheme()
 

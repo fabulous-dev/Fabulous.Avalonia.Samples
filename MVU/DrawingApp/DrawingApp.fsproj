@@ -53,5 +53,6 @@
         <PackageReference Include="FSharp.Core"/>
         <PackageReference Include="Fabulous"/>
         <PackageReference Include="Fabulous.Avalonia"/>
+        <PackageReference Include="Fabulous.Avalonia.Diagnostics"/>
     </ItemGroup>
 </Project>
